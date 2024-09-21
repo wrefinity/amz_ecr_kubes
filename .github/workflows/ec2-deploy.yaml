@@ -35,12 +35,12 @@ jobs:
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       
-      - name: update kube config
-        run: aws eks update-kubeconfig --name nodeapp
-      
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name nodeapp --region ${{ secrets.AWS_REGION }}
+
       - name: Deploy to EKS
-        env: 
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry}}
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: latest
         run: |
           kubectl apply -f infrastructure/deployment.yaml
