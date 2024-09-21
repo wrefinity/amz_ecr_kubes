@@ -25,10 +25,10 @@ jobs:
           aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
           aws-region: ${{secrets.AWS_REGION}}
       - name: login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v2
+        uses: aws-actions/amazon-ecr-login@v1
       - name: build, tag, push docker image to Amazon ECR
         env:
-          REGISTRY: ${{steps.login-ecr.outputs.registry}}
+          REGISTRY: ${{secrets.AWS_ECR_REGISTRY}}
           REPOSITORY: nodeapp
           IMAGE_TAG: latest
         run: |
