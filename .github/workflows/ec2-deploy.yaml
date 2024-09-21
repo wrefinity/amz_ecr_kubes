@@ -28,12 +28,13 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       - name: build, tag, push docker image to Amazon ECR
         env:
-          REGISTRY: ${{ steps.login-to-ecr.outputs.registry }}
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: nodeapp
           IMAGE_TAG: latest
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      
       - name: update kube config
         run: aws eks update-kubeconfig --name nodeapp
       
